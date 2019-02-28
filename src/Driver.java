@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 
 public class Driver {
@@ -27,20 +29,37 @@ public class Driver {
 	}
 
 	public static void main(String[] args) {
-		FileParser r = new FileParser();
-		Image[] output = new Image[r.getSize()];
-		output[0] = r.getImages()[0];
-		for (int i = 1; i < r.getSize(); i++) {
-			Image bestImage = r.getImages()[i];
-			int bestScore = evaluate(output[i - 1], bestImage);
-			for (int j = i + 1; j < r.getSize(); j++) {
-				int score = evaluate(output[i - 1], r.getImages()[j]);
-				if (score > bestScore) {
-					bestScore = score;
-					bestImage = r.getImages()[j];
+		ImageParser r = new ImageParser();
+		r.parse("tests/a_example.txt");
+		ArrayList<Image> images = (ArrayList<Image>) Arrays.asList(r.getImages());
+		Image[] output = new Image[images.size()];
+		output[0] = images.get(0);
+		images.remove(0);
+		int cursor = 0;
+		Image bestImage = null;
+		Image bestImage2 = null;
+		int bestScore = 0;
+		while (images.size() > 2) {
+			for (int i = 0; i < images.size(); i++) {
+				for (int j = i + 1; j < images.size(); j++) {
+					try {
+						int score = evaluate(output[cursor], images.get(i), images.get(j));
+						if (score > bestScore) {
+							bestImage = images.get(i);
+							bestImage = images.get(j);
+							images.remove(i);
+							images.remove(j - 1);// Because the array list shifted, and I know that j is after i
+						}
+					} catch (Exception e) {
+						//moving on...
+					}
 				}
 			}
-			output[i] = bestImage;
+			if(bestImage == null || bestImage2 == null) {
+				System.out.println("PANIC! THE BEST POSSIBLE IMAGES ARE NULL");
+			}
+			output[++cursor] = bestImage;
+			output[++cursor] = bestImage2;
 		}
 	}
 }

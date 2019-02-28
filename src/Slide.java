@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Slide {
@@ -31,13 +32,32 @@ public class Slide {
 		output.addAll(img2.getTags());
 		return output;
 	}
+	
+	 private static int evaluate(Slide a, Slide b) {
+	        HashSet<String> aHS = a.getTags();
+	        HashSet<String> bHS = b.getTags();
+	        HashSet<String> intersection = (HashSet<String>) aHS.clone();
+	        intersection.retainAll(bHS);
+	        aHS.removeAll(intersection);
+	        bHS.removeAll(intersection);
+	        int sizeA = aHS.size();
+	        int sizeB = bHS.size();
+	        int sizeI = intersection.size();
+	        return Integer.min(Integer.min(sizeA, sizeB), sizeI);
+	    }
 
 	public boolean isHorizontal() {
 		return isHorizontal;
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(img, img2);
+	}
 
-
-
-
+	
+	
+	
+	
+	
 }

@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Set;
 
 public class Image {
@@ -36,5 +37,18 @@ public class Image {
 	public void setTags(Set tags) {
 		this.tags = tags;
 	}
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+
+
+
+
+
+
 
 }
