@@ -1,17 +1,9 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-
-
-
-
-import sun.awt.dnd.SunDragSourceContextPeer;
 
 public class Driver {
 	private static int evaluate(Slide a, Slide b) {
@@ -42,7 +34,7 @@ public class Driver {
 
 	public static void main(String[] args) {
 		ImageParser r = new ImageParser();
-		r.parse("tests/a_example.txt");
+		r.parse("tests/b_lovely_landscapes.txt");
 		ArrayList<Image> images = new ArrayList<Image>();
 		for (Image i : r.getImages()) {
 			images.add(i);
@@ -54,22 +46,20 @@ public class Driver {
 		Image bestImage = null;
 		Image bestImage2 = null;
 		int bestScore = -1;
+		int bestImageIndex = -1;
+		int bestImage2Index = -1;
 		while (images.size() > 2) {
 			for (int i = 0; i < images.size(); i++) {
 				for (int j = i + 1; j < images.size(); j++) {
 					try {
-						System.out.println(output[cursor].isHorizontal());
-						System.out.println(images.get(i).isHorizontal());
-						System.out.println(images.get(j).isHorizontal());
 						int score = evaluate(output[cursor], images.get(i), images.get(j));
 						System.out.println("Score: " + score);
 						if (score > bestScore) {
 							bestImage = images.get(i);
 							bestImage2 = images.get(j);
-							images.remove(i);
 							bestScore = score;
-							images.remove(j - 1);// Because the array list shifted, and I know that j is after i
-							score = bestScore;
+							bestImageIndex = i;
+							bestImage2Index = j;
 						}
 
 					} catch (Zhengception e) {
@@ -84,21 +74,21 @@ public class Driver {
 			}
 			output[++cursor] = bestImage;
 			output[++cursor] = bestImage2;
+			images.remove(bestImageIndex);
+			images.remove(bestImage2Index - 1);// j is always afteri, array list shifts
 		}
-		if(images.size() == 2) {
+		if (images.size() == 2) {
 			output[output.length - 2] = images.get(0);
-			images.remove(0);
-			output[output.length - 1] = images.get(0);
+			output[output.length - 1] = images.get(1);
 		} else if (images.size() == 1) {
 			output[output.length - 1] = images.get(0);
-			images.remove(0);
 		}
 		System.out.println(Arrays.toString(output));
-		
+		System.out.println("Writing to output");
 		writeToOutput(output, "testoutput.txt");
 	}
-	
-	public static void  writeToOutput(Image[] out, String path) {
+
+	public static void writeToOutput(Image[] out, String path) {
 		File f = new File(path);
 		if (!f.exists()) {
 			System.out.println("Could not find file at " + f.getAbsolutePath() + ", creating it");
@@ -108,26 +98,25 @@ public class Driver {
 				e.printStackTrace();
 			}
 		}
-		
-		try(FileWriter writer = new FileWriter(f)) {
+
+		try (FileWriter writer = new FileWriter(f)) {
 			String s = out.length + "\n";
-			for(int i = 0; i < out.length; i++) {
+			for (int i = 0; i < out.length; i++) {
 				s += out[i].getId();
-				if(out[i].isHorizontal()) {
+				if (out[i].isHorizontal()) {
 					s += "\n";
 				} else {
 					s += " " + out[++i].getId() + "\n";
 				}
 			}
-			
-			
+
 			writer.write(s.trim());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void  writeToOutput(Slide[] out, String path) {
+
+	public static void writeToOutput(Slide[] out, String path) {
 		File f = new File(path);
 		if (!f.exists()) {
 			System.out.println("Could not find file at " + f.getAbsolutePath() + ", creating it");
@@ -137,12 +126,12 @@ public class Driver {
 				e.printStackTrace();
 			}
 		}
-		
-		try(FileWriter writer = new FileWriter(f)) {
+
+		try (FileWriter writer = new FileWriter(f)) {
 			String s = out.length + "\n";
-			for(Slide slide : out) {
+			for (Slide slide : out) {
 				s += slide.getImg().getId();
-				if(slide.isHorizontal()) {
+				if (slide.isHorizontal()) {
 					s += "\n";
 				} else {
 					s += " " + slide.getImg2().getId() + "\n";
