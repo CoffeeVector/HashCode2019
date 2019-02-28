@@ -10,9 +10,14 @@ public class ImageParser {
 
 	Image[] images;
 	
-	ArrayList<Image> horizontalImages;
-	ArrayList<Image> verticleImages;
+	Set<Image> horizontalImages;
+	Set<Image> verticleImages;
 
+	public ImageParser() {
+		horizontalImages = new HashSet<>();
+		verticleImages = new HashSet<>();
+	}
+	
 	public Image[] parse(String path) {
 		File f = new File(path);
 		if (!f.exists()) {

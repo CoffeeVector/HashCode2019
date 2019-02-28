@@ -5,6 +5,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		ImageParser r = new ImageParser();
+		r.parse("./tests/a_example.txt");
 		Image[] output = new Image[r.getSize()];
 		output[0] = r.getImages()[0];
 		for (int i = 1; i < r.getSize(); i++) {
@@ -21,17 +22,6 @@ public class Main {
 		}
 	}
 	
-	 private static int evaluate(Slide a, Slide b) {
-	        HashSet<String> aHS = a.getTags();
-	        HashSet<String> bHS = b.getTags();
-	        HashSet<String> intersection = (HashSet<String>) aHS.clone();
-	        intersection.retainAll(bHS);
-	        aHS.removeAll(intersection);
-	        bHS.removeAll(intersection);
-	        int sizeA = aHS.size();
-	        int sizeB = bHS.size();
-	        int sizeI = intersection.size();
-	        return Integer.min(Integer.min(sizeA, sizeB), sizeI);
-	    }
+	
 
 }
