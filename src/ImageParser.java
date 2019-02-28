@@ -10,12 +10,12 @@ public class ImageParser {
 
 	Image[] images;
 
-	Set<Image> horizontalImages;
-	Set<Image> verticleImages;
+	ArrayList<Image> horizontalImages;
+	ArrayList<Image> verticleImages;
 
 	public ImageParser() {
-		horizontalImages = new HashSet<>();
-		verticleImages = new HashSet<>();
+		horizontalImages = new ArrayList<Image>();
+		verticleImages = new ArrayList<Image>();
 	}
 
 	public Image[] parse(String path) {
