@@ -31,6 +31,12 @@ public class Slide {
 		output.addAll(img2.getTags());
 		return output;
 	}
+
+	public boolean isHorizontal() {
+		return isHorizontal;
+	}
+	
+	
 	
 	
 	
