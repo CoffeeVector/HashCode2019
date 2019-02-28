@@ -55,4 +55,12 @@ public class Slide {
 		return Objects.hash(img, img2);
 	}
 
+	public Image getImg() {
+		return img;
+	}
+
+	public Image getImg2() {
+		return img2;
+	}
+
 }

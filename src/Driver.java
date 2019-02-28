@@ -1,6 +1,17 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+
+
+
+
+import sun.awt.dnd.SunDragSourceContextPeer;
 
 public class Driver {
 	private static int evaluate(Slide a, Slide b) {
@@ -56,11 +67,14 @@ public class Driver {
 							bestImage = images.get(i);
 							bestImage2 = images.get(j);
 							images.remove(i);
+							bestScore = score;
 							images.remove(j - 1);// Because the array list shifted, and I know that j is after i
 							score = bestScore;
 						}
+
 					} catch (Zhengception e) {
 						System.out.println("BAD");
+
 						// moving on...
 					}
 				}
@@ -80,5 +94,64 @@ public class Driver {
 			images.remove(0);
 		}
 		System.out.println(Arrays.toString(output));
+		
+		writeToOutput(output, "testoutput.txt");
+	}
+	
+	public static void  writeToOutput(Image[] out, String path) {
+		File f = new File(path);
+		if (!f.exists()) {
+			System.out.println("Could not find file at " + f.getAbsolutePath() + ", creating it");
+			try {
+				f.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		try(FileWriter writer = new FileWriter(f)) {
+			String s = out.length + "\n";
+			for(int i = 0; i < out.length; i++) {
+				s += out[i].getId();
+				if(out[i].isHorizontal()) {
+					s += "\n";
+				} else {
+					s += " " + out[++i].getId() + "\n";
+				}
+			}
+			
+			
+			writer.write(s.trim());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void  writeToOutput(Slide[] out, String path) {
+		File f = new File(path);
+		if (!f.exists()) {
+			System.out.println("Could not find file at " + f.getAbsolutePath() + ", creating it");
+			try {
+				f.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		try(FileWriter writer = new FileWriter(f)) {
+			String s = out.length + "\n";
+			for(Slide slide : out) {
+				s += slide.getImg().getId();
+				if(slide.isHorizontal()) {
+					s += "\n";
+				} else {
+					s += " " + slide.getImg2().getId() + "\n";
+				}
+			}
+			writer.write(s);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 }

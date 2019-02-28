@@ -52,6 +52,7 @@ public class ImageParser {
 		return null;
 
 	}
+	
 
 	public int getSize() {
 		return this.images.length;
