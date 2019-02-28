@@ -14,20 +14,13 @@ public class Image {
 		this.id = id;
 		this.tags = tags;
 	}
+
 	public boolean isHorizontal() {
 		return horizontal;
 	}
 
-	public void setHorizontal(boolean horizontal) {
-		this.horizontal = horizontal;
-	}
-
 	public int getId() {
 		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public Set getTags() {
@@ -38,17 +31,19 @@ public class Image {
 		this.tags = tags;
 	}
 
+	int hash = -1;
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		if (hash == -1) {
+			hash = Objects.hash(id);
+		}
+		return hash;
 	}
 
-
-
-
-
-
-
+	@Override
+	public String toString() {
+		return "Image [horizontal=" + horizontal + ", id=" + id + ", tags=" + tags + ", hash=" + hash + "]";
+	}
 
 }

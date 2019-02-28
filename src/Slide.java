@@ -9,9 +9,7 @@ public class Slide {
 
 	private Image img;
 	private Image img2;
-	private HashMap<Integer, Integer> transitionScoreCache; //todo
-
-
+	private HashMap<Integer, Integer> transitionScoreCache; // todo
 
 	public Slide(Image img) {
 		transitionScoreCache = new HashMap<>();
@@ -29,22 +27,24 @@ public class Slide {
 	public HashSet<String> getTags() {
 		HashSet<String> output = new HashSet<String>();
 		output.addAll(img.getTags());
-		output.addAll(img2.getTags());
+		if (img2 != null) {
+			output.addAll(img2.getTags());
+		}
 		return output;
 	}
-	
-	 private static int evaluate(Slide a, Slide b) {
-	        HashSet<String> aHS = a.getTags();
-	        HashSet<String> bHS = b.getTags();
-	        HashSet<String> intersection = (HashSet<String>) aHS.clone();
-	        intersection.retainAll(bHS);
-	        aHS.removeAll(intersection);
-	        bHS.removeAll(intersection);
-	        int sizeA = aHS.size();
-	        int sizeB = bHS.size();
-	        int sizeI = intersection.size();
-	        return Integer.min(Integer.min(sizeA, sizeB), sizeI);
-	    }
+
+	private static int evaluate(Slide a, Slide b) {
+		HashSet<String> aHS = a.getTags();
+		HashSet<String> bHS = b.getTags();
+		HashSet<String> intersection = (HashSet<String>) aHS.clone();
+		intersection.retainAll(bHS);
+		aHS.removeAll(intersection);
+		bHS.removeAll(intersection);
+		int sizeA = aHS.size();
+		int sizeB = bHS.size();
+		int sizeI = intersection.size();
+		return Integer.min(Integer.min(sizeA, sizeB), sizeI);
+	}
 
 	public boolean isHorizontal() {
 		return isHorizontal;
@@ -55,9 +55,4 @@ public class Slide {
 		return Objects.hash(img, img2);
 	}
 
-	
-	
-	
-	
-	
 }
