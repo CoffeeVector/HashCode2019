@@ -1,3 +1,5 @@
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Set;
 
 public class Image {
@@ -11,7 +13,6 @@ public class Image {
 		this.id = id;
 		this.tags = tags;
 	}
-
 	public boolean isHorizontal() {
 		return horizontal;
 	}

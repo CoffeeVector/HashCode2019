@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 public class Slide {
 
@@ -7,7 +8,9 @@ public class Slide {
 
 	private Image img;
 	private Image img2;
-	private HashMap<Integer, Integer> transitionScoreCache; // todo
+	private HashMap<Integer, Integer> transitionScoreCache; //todo
+
+
 
 	public Slide(Image img) {
 		transitionScoreCache = new HashMap<>();
@@ -32,5 +35,9 @@ public class Slide {
 	public boolean isHorizontal() {
 		return isHorizontal;
 	}
+
+
+
+
 
 }
