@@ -9,7 +9,7 @@ import java.util.Set;
 public class ImageParser {
 
 	Image[] images;
-	
+
 	Set<Image> horizontalImages;
 	Set<Image> verticleImages;
 
@@ -17,7 +17,7 @@ public class ImageParser {
 		horizontalImages = new HashSet<>();
 		verticleImages = new HashSet<>();
 	}
-	
+
 	public Image[] parse(String path) {
 		File f = new File(path);
 		if (!f.exists()) {
@@ -40,7 +40,7 @@ public class ImageParser {
 				boolean isHorizontal = splitData[0].equals("H");
 				images[imgId] = new Image(isHorizontal, imgId, tags);
 				(isHorizontal ? horizontalImages : verticleImages).add(images[imgId]);
-				
+
 			}
 
 			this.images = images;
@@ -52,7 +52,6 @@ public class ImageParser {
 		return null;
 
 	}
-	
 
 	public int getSize() {
 		return this.images.length;

@@ -49,7 +49,7 @@ public class Driver {
 		int bestImageIndex = -1;
 		int bestImage2Index = -1;
 		while (images.size() > 2) {
-			for (int i = 0; i < images.size(); i++) {
+			outer: for (int i = 0; i < images.size(); i++) {
 				for (int j = i + 1; j < images.size(); j++) {
 					try {
 						int score = evaluate(output[cursor], images.get(i), images.get(j));
@@ -60,6 +60,9 @@ public class Driver {
 							bestScore = score;
 							bestImageIndex = i;
 							bestImage2Index = j;
+							if (bestScore == output[cursor].getTags().size() / 2) {
+								break outer;
+							}
 						}
 
 					} catch (Zhengception e) {
