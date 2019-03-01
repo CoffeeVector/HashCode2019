@@ -34,7 +34,7 @@ public class Driver {
 
 	public static void main(String[] args) throws Exception {
 		ImageParser r = new ImageParser();
-		String test = "e";
+		String test = "d";
 		r.parse("tests/" + test + ".txt");
 		String outputFile = test + "Submit.txt";
 		ArrayList<Slide> slides = new ArrayList<Slide>();
@@ -64,29 +64,37 @@ public class Driver {
 			// System.out.println(t2s.get(tag));
 		}
 		while (output.size() < slides.size()) {
-			int bestScore = -1;
 			Slide bestSlide = null;
+			int targetTagCount = output.get(output.size() - 1).getTags().size();
+			HashSet<Slide> previous = null;
+			HashSet<Slide> current = null;
+			int generationCount = 0;
 			outer: for (String tag : (HashSet<String>) output.get(output.size() - 1).getTags()) {
 				try {
-					int maxSearch = 10;
-					int searchCount = 0;
-					for (Slide i : t2s.get(tag)) {
-						int score = evaluate(output.get(output.size() - 1), i);
-						if (score > bestScore) {
-							bestScore = score;
-							bestSlide = i;
-							int maxScore = output.get(output.size() - 1).getTags().size() / 2;
-							if (bestScore == maxScore) {
-								break outer;
-							}
-						}
-						searchCount++;
-						if (searchCount > maxSearch) {
+					if (generationCount > targetTagCount) {
+						break;
+					}
+					if (previous == null) {
+						previous = t2s.get(tag);
+						generationCount++;
+					} else if (current == null) {
+						current = (HashSet<Slide>) previous.clone();
+						current.retainAll(t2s.get(tag));
+						generationCount++;
+					} else {
+						if (current.size() != 0) {
+							previous = current;
+							current = (HashSet<Slide>) previous.clone();
+							current.retainAll(t2s.get(tag));
+						} else {
+							bestSlide = (Slide) previous.toArray()[0];
 							break;
 						}
 					}
 				} catch (NullPointerException e) {
+
 				}
+
 			}
 			if (bestSlide == null) {
 				defSearch: for (HashSet<Slide> hs : t2s.values()) {
