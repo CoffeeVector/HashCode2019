@@ -34,8 +34,9 @@ public class Driver {
 
 	public static void main(String[] args) throws Exception {
 		ImageParser r = new ImageParser();
-		r.parse("tests/c_memorable_moments.txt");
-		String outputFile = "cSubmit.txt";
+		String test = "d";
+		r.parse("tests/" + test + ".txt");
+		String outputFile = test + "Submit.txt";
 		ArrayList<Slide> slides = new ArrayList<Slide>();
 		for (int i = 0; i < r.horizontalImages.size(); i++) {
 			slides.add(new Slide(r.horizontalImages.get(i)));
