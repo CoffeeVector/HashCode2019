@@ -1,18 +1,17 @@
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Objects;
-import java.util.Set;
 
 public class Image {
 
 	private boolean horizontal;
 	private int id;
-	private Set tags;
+	private String tags;
+	private int tagCount;
 
-	public Image(boolean horizontal, int id, Set tags) {
+	public Image(boolean horizontal, int id, String tags, int tagCount) {
 		this.horizontal = horizontal;
 		this.id = id;
 		this.tags = tags;
+		this.tagCount = tagCount;
 	}
 
 	public boolean isHorizontal() {
@@ -23,12 +22,12 @@ public class Image {
 		return id;
 	}
 
-	public Set getTags() {
+	public String getTags() {
 		return tags;
 	}
-
-	public void setTags(Set tags) {
-		this.tags = tags;
+	
+	public int getTagCount() {
+		return tagCount;
 	}
 
 	int hash = -1;
