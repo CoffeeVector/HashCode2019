@@ -34,7 +34,7 @@ public class Driver {
 
 	public static void main(String[] args) throws Exception {
 		ImageParser r = new ImageParser();
-		String test = "d";
+		String test = "e";
 		r.parse("tests/" + test + ".txt");
 		String outputFile = test + "Submit.txt";
 		ArrayList<Slide> slides = new ArrayList<Slide>();
@@ -54,6 +54,7 @@ public class Driver {
 				t2s.get(t).add(s);
 			}
 		}
+		int tagCount = t2s.size();
 
 		ArrayList<Slide> output = new ArrayList<Slide>();
 		output.add(slides.get(0));
@@ -67,14 +68,21 @@ public class Driver {
 			Slide bestSlide = null;
 			outer: for (String tag : (HashSet<String>) output.get(output.size() - 1).getTags()) {
 				try {
+					int maxSearch = 10;
+					int searchCount = 0;
 					for (Slide i : t2s.get(tag)) {
 						int score = evaluate(output.get(output.size() - 1), i);
 						if (score > bestScore) {
 							bestScore = score;
 							bestSlide = i;
-							if (bestScore == output.get(output.size() - 1).getTags().size() / 2) {
+							int maxScore = output.get(output.size() - 1).getTags().size() / 2;
+							if (bestScore == maxScore) {
 								break outer;
 							}
+						}
+						searchCount++;
+						if (searchCount > maxSearch) {
+							break;
 						}
 					}
 				} catch (NullPointerException e) {
@@ -91,7 +99,7 @@ public class Driver {
 				}
 			}
 			output.add(bestSlide);
-			if (output.size() % 1000 == 0) {
+			if (output.size() % 100 == 0) {
 				System.out.println(output.size());
 			}
 			for (String tag : (HashSet<String>) bestSlide.getTags()) {
