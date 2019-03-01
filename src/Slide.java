@@ -63,4 +63,12 @@ public class Slide {
 		return img2;
 	}
 
+	public String toString() {
+		if (img2 != null) {
+			return "(\n" + img.toString() + "\n" + img2.toString() + "\n)";
+		} else {
+			return "(\n" + img.toString() + "\n)";
+		}
+	}
+
 }
